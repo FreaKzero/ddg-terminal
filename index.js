@@ -1,3 +1,5 @@
+#! /usr/bin/env node
+
 var doSearch = require('./scrape');
 var marked = require('marked');
 var toMarkdown = require('to-markdown');
@@ -8,7 +10,8 @@ marked.setOptions({
   renderer: new TerminalRenderer()
 });
 
-doSearch('react component').then(function(data) {
+const search = process.argv.slice(2).join(' ');
+doSearch(search).then(function(data) {
 
   let output = '';
   data.items.reverse().forEach(function(item) {
@@ -19,5 +22,3 @@ doSearch('react component').then(function(data) {
   console.log(marked(toMarkdown(data.head)));
 
 });
-
-
