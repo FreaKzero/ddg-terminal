@@ -5,7 +5,10 @@ includes *Instant Answers*
 
 Really useful with the CMD+Click feature of iTerm2
 
-Usage:
+## Install:
+`npm install -g ddg-terminal`
+
+## Usage:
 ```
 -h view help
 -l [integer] limit searchresults (Default/Max 30)
