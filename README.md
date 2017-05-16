@@ -1,7 +1,9 @@
 # ddg-termial
 
-NodeJS Application to view scraped results from http://duckduckgo.com in your console - also
+NodeJS Application to view scraped results from http://duckduckgo.com in your Terminal - also
 includes *Instant Answers*
+
+Really useful with the CMD+Click feature of iTerm2
 
 Usage:
 ```
