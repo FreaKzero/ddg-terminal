@@ -38,7 +38,7 @@ var search = encodeURIComponent(parsed.search);
 doSearch(search, parsed.args).then(function(data) {
   let output = '';
   data.items.reverse().forEach(function(item) {
-    var desc = parsed.args.desc ? '<br />' + item.desc.replace(parsed.search, '<em>' + parsed.search + '</em>') : '';
+    var desc = parsed.args.desc ? '<br />' + item.desc : '';
     output += `<em>${item.headline}</em>${desc}<br>${item.url}<br><br>`
   });
   console.log(marked(toMarkdown(output)));
