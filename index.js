@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 
-var parseArgs = require('./argparser')
+var argparser = require('./argparser')
 var doSearch = require('./scrape');
 var marked = require('marked');
 var toMarkdown = require('to-markdown');
@@ -32,7 +32,12 @@ var availableArgs = [
     defaultvalue: false
   }];
 
-var parsed = parseArgs(process.argv, availableArgs);
+if (process.argv[2] === '-h') {
+  argparser.printUsage();
+  process.exit();
+}
+
+var parsed = argparser.parseArgs(process.argv, availableArgs);
 var search = encodeURIComponent(parsed.search);
 
 doSearch(search, parsed.args).then(function(data) {

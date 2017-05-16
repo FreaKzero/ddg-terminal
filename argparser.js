@@ -22,4 +22,23 @@ function parseArgs(argvArray, args) {
   }
 }
 
-module.exports = parseArgs
+function printUsage() {
+  console.log(`DuckDuckGo Terminal Seach Results
+Usage:
+  ddg [FLAGS]... [SEARCHTERM]...
+
+Flags:
+  -l: Limit Results, default 30
+  -d: Show Descriotions (1 or -1), default -1
+  -h: Show this Help
+
+Examples:
+  $ ddg applepie recipie
+  $ ddg -l 5 javascript Promise
+  $ ddg -l 10 -d 1 blog programming
+  `)
+}
+module.exports = {
+  parseArgs,
+  printUsage
+}
