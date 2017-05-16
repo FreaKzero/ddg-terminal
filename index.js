@@ -30,6 +30,12 @@ var availableArgs = [
     type: Boolean,
     value: null,
     defaultvalue: false
+  }, {
+    name: 'urlonly',
+    arg: '-u',
+    type: Boolean,
+    value: null,
+    defaultvalue: false
   }];
 
 if (process.argv[2] === '-h') {
@@ -43,8 +49,12 @@ var search = encodeURIComponent(parsed.search);
 doSearch(search, parsed.args).then(function(data) {
   let output = '';
   data.items.reverse().forEach(function(item) {
-    var desc = parsed.args.desc ? '<br />' + item.desc : '';
-    output += `<em>${item.headline}</em>${desc}<br>${item.url}<br><br>`
+    if (parsed.args.urlonly) {
+      output += `${item.url}<br>`
+    } else {
+      var desc = parsed.args.desc ? '<br />' + item.desc : '';
+      output += `<em>${item.headline}</em>${desc}<br>${item.url}<br><br>`
+    }
   });
   console.log(marked(toMarkdown(output)));
   console.log(marked(toMarkdown(data.head)));
