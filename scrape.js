@@ -22,13 +22,15 @@ function doSearch(searchTerm, options) {
           let id = 1;
           $('.result__body').each(function(i, elem) {
 
-            var headline = id + '. ' + $(this).find('h2').text().trim();
-            var url = decodeURIComponent($(this).find('h2 a').attr('href')).match(urlRegex)[0];
-            //var snippet = $(this).find('.result__snippet').text()
             searchresults.push({
-              headline: `${headline}`,
-              url: url
+              headline: id + '. ' + $(this).find('h2').text().trim(),
+              url: decodeURIComponent($(this).find('h2 a').attr('href')).match(urlRegex)[0],
+              desc: $(this).find('.result__snippet').html()
             });
+
+            if (id == options.limit+1)
+              return false;
+
             id++;
           });
           resolve({

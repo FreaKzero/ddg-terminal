@@ -1,24 +1,45 @@
 #! /usr/bin/env node
 
+var parseArgs = require('./argparser')
 var doSearch = require('./scrape');
 var marked = require('marked');
 var toMarkdown = require('to-markdown');
 var TerminalRenderer = require('marked-terminal');
+var chalk = require('chalk');
 
 marked.setOptions({
-  // Define custom renderer
-  renderer: new TerminalRenderer()
+  renderer: new TerminalRenderer({
+    em: chalk.bold.green,
+    b: chalk.bold.red,
+    strong: chalk.bold.red,
+    width: 100, // only applicable when reflow is true
+    reflowText: true
+  })
 });
 
-const search = process.argv.slice(2).join(' ');
-doSearch(search).then(function(data) {
+var availableArgs = [
+  {
+    name: 'limit',
+    arg: '-l',
+    type: parseInt,
+    value: null,
+    defaultvalue: 30
+  },{
+    name: 'desc',
+    arg: '-d',
+    type: Boolean,
+    value: null,
+    defaultvalue: false
+  }];
 
+var parsed = parseArgs(process.argv, availableArgs);
+
+doSearch(parsed.search, parsed.args).then(function(data) {
   let output = '';
   data.items.reverse().forEach(function(item) {
-    output += '<b>' + item.headline + '</b><br>' + item.url + '<br><br>';
+    var desc = parsed.args.desc ? '<br />' + item.desc.replace(parsed.search, '<em>' + parsed.search + '</em>') : '';
+    output += `<em>${item.headline}</em>${desc}<br>${item.url}<br><br>`
   });
-
   console.log(marked(toMarkdown(output)));
   console.log(marked(toMarkdown(data.head)));
-
 });
