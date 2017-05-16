@@ -33,8 +33,9 @@ var availableArgs = [
   }];
 
 var parsed = parseArgs(process.argv, availableArgs);
+var search = encodeURIComponent(parsed.search);
 
-doSearch(parsed.search, parsed.args).then(function(data) {
+doSearch(search, parsed.args).then(function(data) {
   let output = '';
   data.items.reverse().forEach(function(item) {
     var desc = parsed.args.desc ? '<br />' + item.desc.replace(parsed.search, '<em>' + parsed.search + '</em>') : '';
@@ -42,4 +43,6 @@ doSearch(parsed.search, parsed.args).then(function(data) {
   });
   console.log(marked(toMarkdown(output)));
   console.log(marked(toMarkdown(data.head)));
-});
+}).catch(function(err) {
+  console.log(marked(`# Oops you spammed too much \n *Too many requests*  \n Please visit https://duckduckgo.com/html/?q=${search} directly for atleast 1 time`))
+})

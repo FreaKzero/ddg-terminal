@@ -4,11 +4,8 @@ const cheerio = require('cheerio');
 const urlRegex = /(https?:\/\/[^ ]*)/;
 
 function doSearch(searchTerm, options) {
-  const term = encodeURIComponent(searchTerm);
 
-
-
-  function scrapeResults(term) {
+  function scrapeResults(searchTerm) {
     var searchresults = [];
     var results = {};
     return new Promise(function(resolve, reject) {
@@ -45,7 +42,7 @@ function doSearch(searchTerm, options) {
   }
 
   return new Promise(function(resolve, reject) {
-    scrapeResults(term).then(function(results) {
+    scrapeResults(searchTerm).then(function(results) {
       resolve(results);
     }).catch(function(err) {
       reject(err);
