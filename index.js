@@ -48,16 +48,23 @@ var search = encodeURIComponent(parsed.search);
 
 doSearch(search, parsed.args).then(function(data) {
   let output = '';
+
   data.items.reverse().forEach(function(item) {
     if (parsed.args.urlonly) {
-      output += `${item.url}<br>`
+      output += `${item.url}\n`
     } else {
       var desc = parsed.args.desc ? '<br />' + item.desc : '';
       output += `<em>${item.headline}</em>${desc}<br>${item.url}<br><br>`
     }
   });
-  console.log(marked(toMarkdown(output)));
-  console.log(marked(toMarkdown(data.head)));
+
+  if (parsed.args.urlonly) {
+    console.log(output);
+  } else {
+    console.log(marked(toMarkdown(output)));
+    console.log(marked(toMarkdown(data.head)));
+  }
+
 }).catch(function(err) {
   console.log(marked(`# Oops you spammed too much \n *Too many requests*  \n Please visit https://duckduckgo.com/html/?q=${search} directly for atleast 1 time`))
 })
