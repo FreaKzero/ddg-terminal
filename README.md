@@ -5,6 +5,8 @@ includes *Instant Answers*
 
 Really useful with the CMD+Click feature of iTerm2
 
+![alt text](https://github.com/FreaKzero/ddg-terminal/blob/master/readme/ddg.gif "Demo GIF")
+
 ## Install:
 `npm install -g ddg-terminal`
 
@@ -27,7 +29,5 @@ Examples:
 ```
 
 ## Most common usage for me:
-This will open the first 5 searchresults automatically in your defaultbrowser
+This will open the first 5 searchresults automatically in your defaultbrowser  
 `ddg -l 5 -u 1 stackoverflow question | xargs open`
-
-![alt text](https://github.com/FreaKzero/ddg-terminal/blob/master/readme/ddg.gif "Demo GIF")
