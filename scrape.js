@@ -25,7 +25,7 @@ function doSearch(searchTerm, options) {
               desc: $(this).find('.result__snippet').html()
             });
 
-            if (id == options.limit+1)
+            if (id == options.limit)
               return false;
 
             id++;
