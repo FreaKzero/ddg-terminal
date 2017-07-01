@@ -2,7 +2,11 @@
   "name": "ddg-terminal",
   "version": "1.1.2",
   "description": "NodeJS Application to view scraped results from http://duckduckgo.com in your terminal - also includes Instant Answers",
-  "keywords": ["duckduckgo", "terminal", "NodeJS"],
+  "keywords": [
+    "duckduckgo",
+    "terminal",
+    "NodeJS"
+  ],
   "repository": {
     "type": "git",
     "url": "git@github.com:freakzero/ddg-terminal.git"
@@ -11,7 +15,9 @@
     "ddg": "./index.js"
   },
   "scripts": {
-    "start": "node ./index.js"
+    "start": "node ./index.js",
+    "test": "jasmine-node --verbose --test-dir ./tests",
+    "test:watch": "jasmine-node --verbose --autotest --test-dir ./tests --watch ./"
   },
   "author": "FreaKzero",
   "license": "MIT",
@@ -23,5 +29,8 @@
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
     "to-markdown": "^3.0.4"
+  },
+  "devDependencies": {
+    "jasmine-node": "^1.14.5"
   }
 }
