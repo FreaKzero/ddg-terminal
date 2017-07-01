@@ -3,7 +3,7 @@ const rp = require('request-promise');
 const cheerio = require('cheerio');
 const urlRegex = /(https?:\/\/[^ ]*)/;
 
-function extract(body, options) {
+function extract(body, args) {
   var searchresults = [];
   var $ = cheerio.load(body);
   var snippet = '';
@@ -19,7 +19,7 @@ function extract(body, options) {
       desc: $(this).find('.result__snippet').html()
     });
 
-    if (id == options.limit)
+    if (id == args.opt('l'))
       return false;
 
     id++;
@@ -31,13 +31,13 @@ function extract(body, options) {
   }
 }
 
-function doSearch(searchTerm, options, url) {
+function doSearch(searchTerm, args, url) {
   var SEARCHURL = url || `https://duckduckgo.com/html/?q=${searchTerm}`;
   function scrapeResults(searchTerm) {
     return new Promise(function(resolve, reject) {
       rp(SEARCHURL)
         .then(function (body) {
-          resolve(extract(body, options));
+          resolve(extract(body, args));
         })
         .catch(function (err) {
           reject(err);
