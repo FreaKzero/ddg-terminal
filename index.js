@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 
 var argparser = require('./argparser')
-var doSearch = require('./scrape');
+var scrape = require('./scrape');
 var marked = require('marked');
 var toMarkdown = require('to-markdown');
 var TerminalRenderer = require('marked-terminal');
@@ -46,7 +46,7 @@ if (process.argv[2] === '-h') {
 var parsed = argparser.parseArgs(process.argv, availableArgs);
 var search = encodeURIComponent(parsed.search);
 
-doSearch(search, parsed.args).then(function(data) {
+scrape.doSearch(search, parsed.args).then(function(data) {
   let output = '';
 
   data.items.reverse().forEach(function(item) {
