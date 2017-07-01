@@ -12,7 +12,7 @@
     "url": "git@github.com:freakzero/ddg-terminal.git"
   },
   "bin": {
-    "ddg": "./index.js"
+    "ddg": "./src/index.js"
   },
   "scripts": {
     "start": "node ./index.js",
