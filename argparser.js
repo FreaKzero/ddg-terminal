@@ -33,8 +33,8 @@ Flags:
   -h Show this Help
 
 Examples:
-  $ ddg applepie recipie             # Only headlines and urls
-  $ ddg -l 5 javascript Promise      # Limit to 5, common programming question it will show instant answer
+  $ ddg applepie recipie           # Only headlines and urls
+  $ ddg -l 5 javascript Promise    # Limit to 5, common programming question it will show instant answer
   $ ddg -l 10 -d blog programming  # Limit to 10, display also Descriptions
   $ ddg -l 3  -u wat meme          # Limit to 3 only show urls (useful for xargs)
   `)

@@ -47,45 +47,43 @@ describe("#argparser", function() {
       '40'];
 
     var parsed = parseArgs();
-    console.log(parsed.args.opt('h'));
     expect(parsed.args.opt('h')).toBe(true);
     expect(parsed.args.opt('d')).toBe(true);
     expect(parsed.args.opt('l')).toBe(40);
-    expect(parsed.search).toBe('javascript promise');
+    expect(parsed.search).toBe('javascript%20promise');
 
   });
 
 });
 
 describe("#scraper snippets", function() {
-  it("Should Scape 1 item and 1 snippet", function() {
-    var options = {
-      limit: 1
-    };
+  var options = {
+    opt: function() {
+      return 1;
+    }
+  };
 
+  it("Should Scape 1 item and 1 snippet", function() {
     var res = scrape.extract(mockSnippet, options);
     expect(res.items.length).toBe(1);
     expect(res.head.length).not.toBe(0);
   });
 
+  it("Snippet should direct to MDN", function() {
+    var MDNLINK='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise';
+    var res = scrape.extract(mockSnippet, options);
+    expect(res.head).toContain(MDNLINK);
+  });
+
   it("Should Scape 5 Items", function() {
-    var options = {
-      limit: 5
+    options = {
+      opt: function() {
+        return 5;
+      }
     };
 
     var res = scrape.extract(mockSnippet, options);
     expect(res.items.length).toBe(5);
   });
 
-
-  it("Snippet should direct to MDN", function() {
-    var MDNLINK='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise';
-
-    var options = {
-      limit: 1
-    };
-
-    var res = scrape.extract(mockSnippet, options);
-    expect(res.head).toContain(MDNLINK);
-  });
 });
