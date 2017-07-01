@@ -129,8 +129,6 @@ describe("#scraper snippets", function() {
     };
 
     var res = scrape.extract(mockSnippet, options);
-    console.log(JSON.stringify(res, null, 2))
-
     var testItem = res.items[0];
     var OUTPUT = 'The <b>Promise</b> object represents the eventual completion (or failure) of an asynchronous operation, and its resulting value.';
     var structureTest = /^[0-9]\.\s.*/.test(testItem.headline);
