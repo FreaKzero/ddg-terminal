@@ -3,6 +3,13 @@ var mockSnippet = fs.readFileSync('./tests/mock-snippet.html', 'utf8');
 var mockNoSnippet = fs.readFileSync('./tests/mock-items.html', 'utf8');
 var scrape = require('../src/scrape.js');
 var parseArgs = require('../src/argparser.js').parseArgs;
+var CONFIG = require('../src/config.js');
+/*
+todo:
+  limit to 30 max
+  limit to 10 max when arg o is set
+  nicer/better argconfig
+ */
 
 // Copypaste from https://stackoverflow.com/questions/5717093/check-if-a-javascript-string-is-a-url
 function isValidUrl(str) {
@@ -25,7 +32,7 @@ describe("#argparser", function() {
       'promise'];
 
     var parsed = parseArgs();
-    expect(parsed.args.opt('l')).toBe(30);
+    expect(parsed.args.opt('l')).toBe(CONFIG.argConfig.l);
     expect(parsed.args.opt('u')).toBe(false);
     expect(parsed.args.opt('d')).toBe(false);
   });

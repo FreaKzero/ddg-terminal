@@ -33,6 +33,7 @@ function extract(body, args) {
 
 function doSearch(searchTerm, args, url) {
   var SEARCHURL = url || `https://duckduckgo.com/html/?q=${searchTerm}`;
+  var results = {}
   function scrapeResults(searchTerm) {
     return new Promise(function(resolve, reject) {
       rp(SEARCHURL)

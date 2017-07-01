@@ -16,8 +16,8 @@
   },
   "scripts": {
     "start": "node ./index.js",
-    "test": "jasmine-node --verbose --test-dir ./tests",
-    "test:watch": "jasmine-node --verbose --autotest --test-dir ./tests --watch ./"
+    "test": "jasmine-node --test-dir ./tests",
+    "test:watch": "jasmine-node --verbose --autotest --color --growl --test-dir ./tests --watch ./src"
   },
   "author": "FreaKzero",
   "license": "MIT",
@@ -27,6 +27,7 @@
     "cheerio": "^0.22.0",
     "marked": "^0.3.6",
     "marked-terminal": "^2.0.0",
+    "openurl": "^1.1.1",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
     "to-markdown": "^3.0.4"
