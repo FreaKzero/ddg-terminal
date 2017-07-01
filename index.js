@@ -17,36 +17,14 @@ marked.setOptions({
   })
 });
 
-var availableArgs = [
-  {
-    name: 'limit',
-    arg: '-l',
-    type: parseInt,
-    value: null,
-    defaultvalue: 30
-  },{
-    name: 'desc',
-    arg: '-d',
-    type: Boolean,
-    value: null,
-    defaultvalue: false
-  }, {
-    name: 'urlonly',
-    arg: '-u',
-    type: Boolean,
-    value: null,
-    defaultvalue: false
-  }];
+var parsed = argparser.parseArgs();
 
-if (process.argv[2] === '-h') {
+if (parsed.args.opt('h') === true) {
   argparser.printUsage();
   process.exit();
 }
 
-var parsed = argparser.parseArgs(process.argv, availableArgs);
-var search = encodeURIComponent(parsed.search);
-
-scrape.doSearch(search, parsed.args).then(function(data) {
+scrape.doSearch(parsed.search, parsed.args).then(function(data) {
   let output = '';
 
   data.items.reverse().forEach(function(item) {
