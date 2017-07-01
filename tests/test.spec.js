@@ -4,6 +4,8 @@ var mockNoSnippet = fs.readFileSync('./tests/mock-items.html', 'utf8');
 var scrape = require('../src/scrape.js');
 var parseArgs = require('../src/argparser.js').parseArgs;
 var CONFIG = require('../src/config.js');
+var output = require('../src/output.js');
+
 /*
 todo:
   limit to 30 max
@@ -22,6 +24,65 @@ function isValidUrl(str) {
   }
 }
 
+describe("#output", function() {
+    var options = {
+      opt: function(w) {
+        switch (w) {
+          case "l":
+          return 1;
+          case "d":
+          return true;
+        }
+      }
+    };
+
+    var DATAMOCK =  {
+      head: '',
+      items:[{
+        headline: '1. Promise - JavaScript | MDN',
+        url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise',
+        desc: 'The <b>Promise</b> object represents the eventual completion (or failure) of an asynchronous operation, and its resulting value.'
+      }]
+    };
+
+    it("Should print", function() {
+      console.log = jasmine.createSpy("log");
+      output.printResults(DATAMOCK, options);
+      expect(console.log).toHaveBeenCalled();
+    });
+
+    it("Should print URL only", function() {
+      options = {
+        opt: function(w) {
+            switch (w) {
+              case "l":
+              return 1;
+              case "u":
+              return true;
+            }
+          }
+      };
+      console.log = jasmine.createSpy("log");
+      output.printResults(DATAMOCK, options);
+
+      // .... Fix this \n
+      expect(console.log).toHaveBeenCalledWith('https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise\n');
+    });
+
+    it("Should reformat HTML to Markdown", function() {
+      var testStr = '<section>Wat rly <em>so kewl</em> <a href="#">fu</a></section>';
+      expect(output.format(testStr)).not.toContain('<a href');
+    });
+
+    it("Should not reformat HTML to Markdown", function() {
+      var testStr = '<section>Wat rly *so kewl* <a href="#">fu</a></section>';
+      expect(output.format(testStr, false)).toContain('<a href');
+      expect(output.format(testStr, false)).not.toContain('*so kewl*');
+    });
+
+
+
+});
 describe("#argparser", function() {
   it("Should have the correct default options", function() {
 
@@ -128,12 +189,13 @@ describe("#scraper snippets", function() {
       opt: function(w) {
         switch (w) {
           case "l":
-          return 1;
+          return 3;
           case "d":
           return true;
         }
       }
     };
+
 
     var res = scrape.extract(mockSnippet, options);
     var testItem = res.items[0];

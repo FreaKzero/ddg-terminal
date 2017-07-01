@@ -16,7 +16,7 @@ function openResults(data) {
 }
 
 function format(msg, toMark) {
-  return toMark ? marked(msg) : marked(toMarkdown(msg));
+  return toMark === false ? marked(msg) : marked(toMarkdown(msg));
 }
 
 function printResults(data, args) {
