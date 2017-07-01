@@ -28,15 +28,15 @@ scrape.doSearch(parsed.search, parsed.args).then(function(data) {
   let output = '';
 
   data.items.reverse().forEach(function(item) {
-    if (parsed.args.urlonly) {
+    if (parsed.args.opt('u')) {
       output += `${item.url}\n`
     } else {
-      var desc = parsed.args.desc ? '<br />' + item.desc : '';
+      var desc = parsed.args.opt('d') ? '<br />' + item.desc : '';
       output += `<em>${item.headline}</em>${desc}<br>${item.url}<br><br>`
     }
   });
 
-  if (parsed.args.urlonly) {
+  if (parsed.args.opt('u')) {
     console.log(output);
   } else {
     console.log(marked(toMarkdown(output)));
