@@ -1,8 +1,19 @@
 var fs = require('fs');
 var mockSnippet = fs.readFileSync('./tests/mock-snippet.html', 'utf8');
 var mockNoSnippet = fs.readFileSync('./tests/mock-items.html', 'utf8');
-var scrape = require('../scrape.js');
-var parseArgs = require('../argparser.js').parseArgs;
+var scrape = require('../src/scrape.js');
+var parseArgs = require('../src/argparser.js').parseArgs;
+
+// Copypaste from https://stackoverflow.com/questions/5717093/check-if-a-javascript-string-is-a-url
+function isValidUrl(str) {
+  var regex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
+  if(!regex .test(str)) {
+    alert("Please enter valid URL.");
+    return false;
+  } else {
+    return true;
+  }
+}
 
 describe("#argparser", function() {
   it("Should have the correct default options", function() {
@@ -85,5 +96,49 @@ describe("#scraper snippets", function() {
     var res = scrape.extract(mockSnippet, options);
     expect(res.items.length).toBe(5);
   });
+
+  it("Items should have valid URLs", function() {
+    options = {
+      opt: function(w) {
+        switch (w) {
+          case "l":
+          return 20;
+          case "d":
+          return false;
+        }
+      }
+    };
+
+    var res = scrape.extract(mockSnippet, options);
+
+    res.items.filter((item) => {
+      expect(isValidUrl(item.url)).toBe(true);
+    });
+  });
+
+  it("Item Texts Should have correct Format/Structure", function() {
+    options = {
+      opt: function(w) {
+        switch (w) {
+          case "l":
+          return 1;
+          case "d":
+          return true;
+        }
+      }
+    };
+
+    var res = scrape.extract(mockSnippet, options);
+    console.log(JSON.stringify(res, null, 2))
+
+    var testItem = res.items[0];
+    var OUTPUT = 'The <b>Promise</b> object represents the eventual completion (or failure) of an asynchronous operation, and its resulting value.';
+    var structureTest = /^[0-9]\.\s.*/.test(testItem.headline);
+    var urlTest = isValidUrl(testItem.url);
+
+    expect(structureTest).toBe(true);
+    expect(testItem.desc).toBe(OUTPUT)
+  });
+
 
 });
