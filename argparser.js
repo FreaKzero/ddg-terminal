@@ -1,25 +1,24 @@
-function parseArgs(argvArray, args) {
-  argvArray = argvArray.slice(2);
-  var out = {};
+var ap = require('argparser');
 
-  args.map(function(item) {
-    var ind = argvArray.indexOf(item.arg);
+function parseArgs() {
 
-    if (ind > -1) {
-      out[item.name] = item.type(argvArray.splice(ind, 2)[1]);
-    } else if (item.hasOwnProperty('defaultvalue')) {
-        out[item.name] = item.defaultvalue;
-    }
-  });
+  var def = {
+    l: 30
+  };
 
-  argvArray = argvArray.filter(function(item) {
-    return item !== ""
-  }).join(' ')
+   var args = ap.arg(0)
+   .defaults({
+      l : 30
+    })
+   .nums('l')
+   .nonvals('u')
+   .nonvals('d')
+   .parse();
 
-  return {
-      args: out,
-      search: argvArray
-  }
+   return {
+    search: args._args.join(' '),
+    args: args
+   }
 }
 
 function printUsage() {
