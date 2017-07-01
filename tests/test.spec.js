@@ -1,10 +1,11 @@
 var fs = require('fs');
 var mockSnippet = fs.readFileSync('./tests/mock-snippet.html', 'utf8');
 var mockNoSnippet = fs.readFileSync('./tests/mock-items.html', 'utf8');
+var rewire = require("rewire");
 var scrape = require('../src/scrape.js');
 var parseArgs = require('../src/argparser.js').parseArgs;
 var CONFIG = require('../src/config.js');
-var output = require('../src/output.js');
+var output = rewire("../src/output.js");
 
 /*
 todo:
@@ -45,6 +46,35 @@ describe("#output", function() {
       }]
     };
 
+    it("Should open URLS in Browser", function() {
+
+      output.__set__("openurl", {
+        open: function (url) {
+          expect(url).toBe('https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise');
+        }
+      });
+
+      options = {
+        opt: function(w) {
+            switch (w) {
+              case "l":
+              return 1;
+              case "o":
+              return true;
+            }
+          }
+      };
+      var DATAMOCK =  {
+        head: '',
+        items:[{
+          headline: '1. Promise - JavaScript | MDN',
+          url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise',
+          desc: 'The <b>Promise</b> object represents the eventual completion (or failure) of an asynchronous operation, and its resulting value.'
+        }]
+      };
+      output.openResults(DATAMOCK);
+    });
+
     it("Should print", function() {
       console.log = jasmine.createSpy("log");
       output.printResults(DATAMOCK, options);
@@ -79,8 +109,6 @@ describe("#output", function() {
       expect(output.format(testStr, false)).toContain('<a href');
       expect(output.format(testStr, false)).not.toContain('*so kewl*');
     });
-
-
 
 });
 describe("#argparser", function() {

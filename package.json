@@ -33,6 +33,7 @@
     "to-markdown": "^3.0.4"
   },
   "devDependencies": {
+    "rewire": "^2.5.2",
     "jasmine-node": "^1.14.5"
   }
 }
