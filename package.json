@@ -17,7 +17,9 @@
   "scripts": {
     "start": "node ./index.js",
     "test": "jasmine-node --test-dir ./tests",
-    "test:watch": "jasmine-node --verbose --autotest --color --growl --test-dir ./tests --watch ./src"
+    "test:watch": "jasmine-node --verbose --autotest --color --growl --test-dir ./tests --watch ./src",
+    "build:mac": "rimraf ./dist && pkg -t node6-macos-x64 . --out-path ./dist",
+    "build": "rimraf ./dist && pkg . --out-path ./dist",
   },
   "author": "FreaKzero",
   "license": "MIT",
@@ -33,6 +35,8 @@
     "to-markdown": "^3.0.4"
   },
   "devDependencies": {
+    "rimraf": "^2.6.1",
+    "pkg": "^4.1.1",
     "rewire": "^2.5.2",
     "jasmine-node": "^1.14.5"
   }
