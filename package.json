@@ -19,7 +19,7 @@
     "test": "jasmine-node --test-dir ./tests",
     "test:watch": "jasmine-node --verbose --autotest --color --growl --test-dir ./tests --watch ./src",
     "build:mac": "rimraf ./dist && pkg -t node6-macos-x64 . --out-path ./dist",
-    "build": "rimraf ./dist && pkg . --out-path ./dist",
+    "build": "rimraf ./dist && pkg . --out-path ./dist"
   },
   "author": "FreaKzero",
   "license": "MIT",
