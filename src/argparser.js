@@ -6,7 +6,7 @@ function parseArgs() {
    var args = ap.arg(0)
    .defaults(CONFIG.argConfig)
    .nums('l', 'limit')
-   .nonvals('u', 'only-urls', 'd', 'desc', 'o', 'open', 'v', 'version')
+   .nonvals('u', 'only-urls', 'd', 'desc', 'o', 'open', 'v', 'version', 'f', 'first-hit')
    .parse();
 
    return {
@@ -31,6 +31,7 @@ Flags:
   -d [--desc]      Show Descriptions
   -u [--only-urls] Show only urls
   -o [--open]      Open found urls in Browser automatically
+  -f [--first-hit] Opens First Link in Browser
 
 Examples:
   $ ddg applepie recipie           # Only headlines and urls

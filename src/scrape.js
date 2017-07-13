@@ -11,6 +11,8 @@ function extract(body, args) {
     snippet = $('.zci__heading').html().trim() + '\n' + $('.zci__result').html().trim() + '\n';
   }
   let id = 1;
+  let LIMIT = args.opt('f', 'first-hit') ? 1 : args.opt('l', 'limit');
+
   $('.result__body').each(function(i, elem) {
 
     searchresults.push({
@@ -19,7 +21,7 @@ function extract(body, args) {
       desc: $(this).find('.result__snippet').html()
     });
 
-    if (id == args.opt('l') || id == args.opt('limit'))
+    if (id == LIMIT)
       return false;
 
     id++;

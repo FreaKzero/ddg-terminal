@@ -16,11 +16,11 @@
   },
   "scripts": {
     "start": "node ./src/index.js",
-    "release": "node ./release.js",
+    "release": "npm test && npm start build && node ./release.js",
     "test": "jasmine-node --test-dir ./tests",
     "test:watch": "jasmine-node --verbose --autotest --color --growl --test-dir ./tests --watch ./src",
     "build:mac": "rimraf ./dist && pkg -t node6-macos-x64 . --out-path ./dist/bin",
-    "build": "npm test && rimraf ./dist && pkg . --out-path ./dist/bin"
+    "build": "rimraf ./dist && pkg . --out-path ./dist/bin"
   },
   "author": "FreaKzero",
   "license": "MIT",

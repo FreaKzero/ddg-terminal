@@ -4,6 +4,7 @@ var argparser = require('./argparser')
 var scrape = require('./scrape');
 var output = require('./output');
 
+console.log(output.format('☕ * Please wait ...*'));
 var parsed = argparser.parseArgs();
 
 if (parsed.args.opt('v', 'version') === true) {
@@ -16,17 +17,13 @@ if (parsed.args.opt('h', 'help') === true || parsed.args._args.length < 1) {
   process.exit();
 }
 
-console.log(output.format('☕ * Please wait ...*'));
 scrape.doSearch(parsed.search, parsed.args).then(function(data) {
-  if (parsed.args.opt('o', 'open')) {
+  if (parsed.args.opt('o', 'open', 'f', 'first-hit')) {
     output.openResults(data);
   } else {
     output.printResults(data, parsed.args);
   }
 
 }).catch(function(err) {
-  output.format(
-    `# Oops you spammed too much \n *Too many requests*  \n Please visit https://duckduckgo.com/html/?q=${parsed.search} directly for atleast 1 time`,
-    false
-  );
+  if (err) console.log(`Oops you spammed too much \n Please visit https://duckduckgo.com/html/?q=${parsed.search} directly for atleast 1 time`)
 })

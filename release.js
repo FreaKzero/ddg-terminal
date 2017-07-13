@@ -26,21 +26,8 @@ checkError = (err) => {
   }
 }
 
-console.log('  ☕  Testing ...')
-const test = spawn('npm test', { shell: true });
-test.on('close', (code) => {
-  if (code > 0) {
-    console.log(`  😢  Tests failed! Purging /dist`);
-    rimraf('./dist',() => {
-      console.log(`  🤖  /dist purged!`);
-    });
-    process.exit();
-  } else {
-    console.log(`  🤖  All Tests OK!`);
-    compress();
-    gitCmds();
-  }
-});
+gitCmds();
+
 
 function compress() {
   console.log('  ☕  Zipping Release Files ...')
@@ -66,6 +53,7 @@ function publishNpm() {
       process.exit();
     } else {
       console.log(`  🤖  NPM Package Published!`);
+      compress();
       publishGitHub();
     }
   });
@@ -106,7 +94,7 @@ function gitCmds() {
     data.all.filter((item) => {
       return item.message.includes('#')
     }).map((item) => {
-       CHANGELOG += `- ${item.message} \n`
+       CHANGELOG += `- ${item.message} \n`.replace('#','')
     });
   }).exec(() => {
     publishNpm();
