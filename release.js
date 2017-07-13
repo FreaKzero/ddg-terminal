@@ -11,14 +11,14 @@ var openurl = require("openurl");
 var REMOTE;
 var TAGBEFORE;
 var CHANGELOG = `*CHANGELOG:*\n\n`;
-var TOKEN;
+var TOKEN = fs.readFileSync('.token','utf8').token;
 
 console.log('  ☕  Checking .token file ...')
-if (!fs.existsSync('.token')) {
+if (!fs.existsSync('')) {
   console.log(`  😢  No GitHub Token File found ... cancelling`);
   process.exit();
 } else {
-  TOKEN = fs.readFileSync('.token').toString();
+  TOKEN =
 }
 
 console.log('  ☕  Checking /dist folder ...')
