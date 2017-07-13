@@ -4,7 +4,6 @@ var argparser = require('./argparser')
 var scrape = require('./scrape');
 var output = require('./output');
 
-console.log(output.format('☕ * Please wait ...*'));
 var parsed = argparser.parseArgs();
 
 if (parsed.args.opt('v', 'version') === true) {
@@ -16,6 +15,8 @@ if (parsed.args.opt('h', 'help') === true || parsed.args._args.length < 1) {
   argparser.printUsage();
   process.exit();
 }
+
+console.log(output.format('☕ * Please wait ...*'));
 
 scrape.doSearch(parsed.search, parsed.args).then(function(data) {
   if (parsed.args.opt('o', 'open', 'f', 'first-hit')) {
