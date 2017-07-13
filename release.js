@@ -61,7 +61,7 @@ function gitCmds() {
   .commit('Push Release')
   .push(['origin', 'master'], function () {
     console.log(`☕  Pushing open changes ...`)
-    checkError(err);
+    checkError(err || null);
   })
   .listRemote(['--get-url'], function(err, data) {
     console.log(`☕  Fetch current Remote ...`)
