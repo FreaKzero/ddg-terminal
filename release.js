@@ -5,18 +5,30 @@ var git = require('simple-git')(__dirname);
 var path = require('path');
 var spawn = require('child_process').spawn;
 var rimraf = require('rimraf');
+var GitHub = require('github-api');
+
 var REMOTE;
 var TAGBEFORE;
+var CHANGELOG = `*CHANGELOG:*\n\n`;
+var TOKEN;
+
+console.log('  ☕  Checking .token file ...')
+if (!fs.existsSync('.token')) {
+  console.log(`  😢  No GitHub Token File found ... cancelling`);
+  process.exit();
+} else {
+  TOKEN = fs.readFileSync('.token').toString();
+}
 
 console.log('  ☕  Checking /dist folder ...')
 if (!fs.existsSync('./dist')) {
-  console.log(`😢  No /dist folder found please run "npm run build" first`);
+  console.log(`  😢  No /dist folder found please run "npm run build" first`);
   process.exit();
 }
 
 checkError = (err) => {
   if (err) {
-    console.log(`😢  Error occured: \n ${err}`)
+    console.log(`  😢  Error occured: \n ${err}`)
     process.exit();
   }
 }
@@ -34,7 +46,6 @@ test.on('close', (code) => {
     console.log(`  🤖  All Tests OK!`);
     compress();
     gitCmds();
-    publishNpm();
   }
 });
 
@@ -62,6 +73,7 @@ function publishNpm() {
       process.exit();
     } else {
       console.log(`  🤖  NPM Package Published!`);
+      publishGitHub();
     }
   });
 }
@@ -98,13 +110,38 @@ function gitCmds() {
   })
   .log({from: TAGBEFORE, to: pkg.version}, (err, data) => {
     checkError(err);
-    console.log('*CHANGELOG:*');
     data.all.filter((item) => {
-      return !item.message.includes('🎉')
+      return item.message.includes('#')
     }).map((item) => {
-       console.log(`- item.message`);
+       CHANGELOG += `- ${item.message} \n`
     });
+  }).exec(() => {
+    publishNpm();
   })
+}
+
+function publishGitHub() {
+  console.log('  ☕  Publish on GitHub ...')
+  var gh = new GitHub({
+    token: TOKEN,
+    auth: 'oauth'
+  });
+
+  const repo = gh.getRepo('freakzero', 'ddg-terminal')
+    repo.createRelease({
+      "tag_name": pkg.version,
+      "target_commitish": "master",
+      "name": `Version ${pkg.version}`,
+      "body": CHANGELOG,
+      "draft": false,
+      "prerelease": false
+    }, (err, data) => {
+      checkError(err);
+        console.log(`  🤓  Release Successful! purging /dist`)
+        rimraf('./dist',() => {
+          console.log(`  🤖  /dist purged!`);
+        });
+    });
 }
 
 // TODO automate github release

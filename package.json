@@ -1,6 +1,6 @@
 {
   "name": "ddg-terminal",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "NodeJS Application to view scraped results from http://duckduckgo.com in your terminal - also includes Instant Answers",
   "keywords": [
     "duckduckgo",
@@ -28,6 +28,7 @@
     "argparser": "^0.2.2",
     "chalk": "^1.1.3",
     "cheerio": "^0.22.0",
+    "github-api": "^3.0.0",
     "marked": "^0.3.6",
     "marked-terminal": "^2.0.0",
     "openurl": "^1.1.1",
