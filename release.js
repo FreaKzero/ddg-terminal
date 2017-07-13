@@ -55,14 +55,13 @@ function gitCmds() {
       console.log('☕  Fetching tags ...')
       console.log(`🤖  Tag ${tags.latest} already exists`);
       process.exit();
+    } else {
+      console.log(`🤓 Pushing current Changes`)
     }
   })
   .add('./*')
-  .commit('Push Release')
-  .push(['origin', 'master'], function () {
-    console.log(`☕  Pushing open changes ...`)
-    checkError(err || null);
-  })
+  .commit('Push Release ${pkg.version}')
+  .push(['origin', 'master'])
   .listRemote(['--get-url'], function(err, data) {
     console.log(`☕  Fetch current Remote ...`)
     checkError(err);
