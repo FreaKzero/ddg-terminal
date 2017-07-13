@@ -161,6 +161,28 @@ describe("#argparser", function() {
 
   });
 
+  it("Parses longs correctly", function() {
+
+    process.argv = [
+      '/bin/node',
+      '/bin/ddg',
+      'javascript',
+      'promise',
+      '--hadouken',
+      '--help',
+      '--desc',
+      '--limit',
+      '40'];
+
+    var parsed = parseArgs();
+    expect(parsed.args.opt('help')).toBe(true);
+    expect(parsed.args.opt('desc')).toBe(true);
+    expect(parsed.args.opt('limit')).toBe(40);
+    expect(parsed.search).toBe('javascript%20promise');
+
+  });
+
+
 });
 
 describe("#scraper snippets", function() {
