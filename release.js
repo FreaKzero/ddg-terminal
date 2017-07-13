@@ -6,6 +6,7 @@ var path = require('path');
 var spawn = require('child_process').spawn;
 var rimraf = require('rimraf');
 var GitHub = require('github-api');
+var openurl = require("openurl");
 
 var REMOTE;
 var TAGBEFORE;
@@ -129,22 +130,18 @@ function publishGitHub() {
 
   const repo = gh.getRepo('freakzero', 'ddg-terminal')
     repo.createRelease({
-      "tag_name": pkg.version,
-      "target_commitish": "master",
-      "name": `Version ${pkg.version}`,
-      "body": CHANGELOG,
-      "draft": false,
-      "prerelease": false
+      tag_name: pkg.version,
+      target_commitish: "master",
+      name: `Version ${pkg.version}`,
+      body: CHANGELOG,
+      draft: true,
+      prerelease: false
     }, (err, data) => {
-      checkError(err);
-        console.log(`  🤓  Release Successful! purging /dist`)
-        rimraf('./dist',() => {
-          console.log(`  🤖  /dist purged!`);
-        });
+        checkError(err);
+        console.log(`  🤓  Release Successful!`)
+        openurl.open(`https://github.com/FreaKzero/ddg-terminal/releases/edit/${pkg.version}`);
     });
 }
 
-// TODO automate github release
 // TODO check if TAGBEFORE is given
 // TODO write this nicely
-// TODO Purge dist after binaries are uploaded automatically
