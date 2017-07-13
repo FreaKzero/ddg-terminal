@@ -11,15 +11,7 @@ var openurl = require("openurl");
 var REMOTE;
 var TAGBEFORE;
 var CHANGELOG = `*CHANGELOG:*\n\n`;
-var TOKEN = fs.readFileSync('.token','utf8').token;
-
-console.log('  ☕  Checking .token file ...')
-if (!fs.existsSync('')) {
-  console.log(`  😢  No GitHub Token File found ... cancelling`);
-  process.exit();
-} else {
-  TOKEN =
-}
+var TOKEN = fs.readFileSync('token.json','utf8').token;
 
 console.log('  ☕  Checking /dist folder ...')
 if (!fs.existsSync('./dist')) {
