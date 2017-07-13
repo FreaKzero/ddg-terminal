@@ -23,10 +23,10 @@ console.log('  ☕  Testing ...')
 const test = spawn('npm test', { shell: true });
 test.on('close', (code) => {
   if (code > 0) {
-    console.log(`😢  Tests failed!`);
+    console.log(`  😢  Tests failed!`);
     process.exit();
   } else {
-    console.log(`🤖  All Tests OK!`);
+    console.log(`  🤖  All Tests OK!`);
     compress();
     gitCmds();
   }
