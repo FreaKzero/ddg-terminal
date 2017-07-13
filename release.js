@@ -1,6 +1,7 @@
 var zip = new require('node-zip')();
 var fs = require("fs");
 var pkg = require('./package.json');
+var TOKEN = require('./token.json').token;
 var git = require('simple-git')(__dirname);
 var path = require('path');
 var spawn = require('child_process').spawn;
@@ -11,7 +12,6 @@ var openurl = require("openurl");
 var REMOTE;
 var TAGBEFORE;
 var CHANGELOG = `*CHANGELOG:*\n\n`;
-var TOKEN = fs.readFileSync('token.json','utf8').token;
 
 console.log('  ☕  Checking /dist folder ...')
 if (!fs.existsSync('./dist')) {
