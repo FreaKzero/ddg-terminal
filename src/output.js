@@ -22,15 +22,15 @@ function format(msg, toMark) {
 function printResults(data, args) {
   let output = '';
   data.items.reverse().forEach(function(item) {
-    if (args.opt('u')) {
+    if (args.opt('u', 'only-urls')) {
       output += `${item.url}\n`
     } else {
-      var desc = args.opt('d') ? '<br />' + item.desc : '';
+      var desc = args.opt('d', 'desc') ? '<br />' + item.desc : '';
       output += `<em>${item.headline}</em>${desc}<br>${item.url}<br><br>`
     }
   });
 
-  if (args.opt('u')) {
+  if (args.opt('u', 'only-urls')) {
     console.log(output);
   } else {
     console.log(format(output));

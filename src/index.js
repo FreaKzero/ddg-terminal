@@ -6,14 +6,19 @@ var output = require('./output');
 
 var parsed = argparser.parseArgs();
 
-if (parsed.args.opt('h') === true || parsed.args._args.length < 1) {
+if (parsed.args.opt('v', 'version') === true) {
+  argparser.printVersion();
+  process.exit();
+}
+
+if (parsed.args.opt('h', 'help') === true || parsed.args._args.length < 1) {
   argparser.printUsage();
   process.exit();
 }
 
 console.log(output.format('☕ * Please wait ...*'));
 scrape.doSearch(parsed.search, parsed.args).then(function(data) {
-  if (parsed.args.opt('o')) {
+  if (parsed.args.opt('o', 'open')) {
     output.openResults(data);
   } else {
     output.printResults(data, parsed.args);

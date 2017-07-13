@@ -19,7 +19,7 @@ function extract(body, args) {
       desc: $(this).find('.result__snippet').html()
     });
 
-    if (id == args.opt('l'))
+    if (id == args.opt('l') || id == args.opt('limit'))
       return false;
 
     id++;
