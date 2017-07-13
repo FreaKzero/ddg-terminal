@@ -4,7 +4,9 @@ var pkg = require('./package.json');
 var git = require('simple-git')(__dirname);
 var path = require('path');
 var spawn = require('child_process').spawn;
+var rimraf = require('rimraf');
 var REMOTE;
+var TAGBEFORE;
 
 console.log('  ☕  Checking /dist folder ...')
 if (!fs.existsSync('./dist')) {
@@ -23,12 +25,16 @@ console.log('  ☕  Testing ...')
 const test = spawn('npm test', { shell: true });
 test.on('close', (code) => {
   if (code > 0) {
-    console.log(`  😢  Tests failed!`);
+    console.log(`  😢  Tests failed! Purging /dist`);
+    rimraf('/some/directory',() => {
+      console.log(`  🤖  /dist purged!`);
+    });
     process.exit();
   } else {
     console.log(`  🤖  All Tests OK!`);
     compress();
     gitCmds();
+    publishNpm();
   }
 });
 
@@ -47,6 +53,19 @@ function compress() {
   fs.writeFileSync('./dist/ddg-win-x64.zip', data, 'binary');
 }
 
+function publishNpm() {
+  console.log('  ☕  Publish on NPM ...')
+  const npmpub = spawn('npm publish', { shell: true });
+    npmpub.on('close', (code) => {
+    if (code > 0) {
+      console.log(`  😢  NPM Publish failed`);
+      process.exit();
+    } else {
+      console.log(`  🤖  NPM Package Published!`);
+    }
+  });
+}
+
 function gitCmds() {
   git
   .pull()
@@ -56,6 +75,7 @@ function gitCmds() {
       console.log(`  🤖  Tag ${tags.latest} already exists`);
       process.exit();
     } else {
+      TAGBEFORE = tags.all[tags.all.length-2];
       console.log(`  🤓  Pushing current Changes`)
     }
   })
@@ -75,5 +95,19 @@ function gitCmds() {
   .pushTags(REMOTE, (err, res) => {
     console.log(`  🤓  Push Tag to Remote: ${REMOTE}`)
     checkError(err);
-  });
+  })
+  .log({from: TAGBEFORE, to: pkg.version}, (err, data) => {
+    checkError(err);
+    console.log('*CHANGELOG:*');
+    data.all.filter((item) => {
+      return !item.message.includes('🎉')
+    }).map((item) => {
+       console.log(`- item.message`);
+    });
+  })
 }
+
+// TODO automate github release
+// TODO check if TAGBEFORE is given
+// TODO write this nicely
+// TODO Purge dist after binaries are uploaded automatically
