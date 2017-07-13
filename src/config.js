@@ -11,7 +11,8 @@ var rendererConfig = {
 };
 
 var argConfig = {
-  l : 10
+  l : 10,
+  limit: 10
 };
 
 module.exports = {
