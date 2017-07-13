@@ -26,7 +26,7 @@ const test = spawn('npm test', { shell: true });
 test.on('close', (code) => {
   if (code > 0) {
     console.log(`  😢  Tests failed! Purging /dist`);
-    rimraf('/some/directory',() => {
+    rimraf('./dist',() => {
       console.log(`  🤖  /dist purged!`);
     });
     process.exit();
