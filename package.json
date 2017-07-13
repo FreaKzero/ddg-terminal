@@ -18,8 +18,8 @@
     "start": "node ./index.js",
     "test": "jasmine-node --test-dir ./tests",
     "test:watch": "jasmine-node --verbose --autotest --color --growl --test-dir ./tests --watch ./src",
-    "build:mac": "rimraf ./dist && pkg -t node6-macos-x64 . --out-path ./dist",
-    "build": "rimraf ./dist && pkg . --out-path ./dist"
+    "build:mac": "rimraf ./dist && pkg -t node6-macos-x64 . --out-path ./dist/bin",
+    "build": "npm test && rimraf ./dist && pkg . --out-path ./dist/bin"
   },
   "author": "FreaKzero",
   "license": "MIT",
@@ -29,6 +29,9 @@
     "cheerio": "^0.22.0",
     "marked": "^0.3.6",
     "marked-terminal": "^2.0.0",
+    "node-cmd": "^3.0.0",
+    "node-zip": "^1.1.1",
+    "npm-run-script": "0.0.4",
     "openurl": "^1.1.1",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
