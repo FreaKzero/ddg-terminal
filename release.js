@@ -6,7 +6,7 @@ var path = require('path');
 var spawn = require('child_process').spawn;
 var REMOTE;
 
-console.log('☕  Checking /dist folder ...')
+console.log('  ☕  Checking /dist folder ...')
 if (!fs.existsSync('./dist')) {
   console.log(`😢  No /dist folder found please run "npm run build" first`);
   process.exit();
@@ -19,21 +19,21 @@ checkError = (err) => {
   }
 }
 
-console.log('☕  Testing ...')
+console.log('  ☕  Testing ...')
 const test = spawn('npm test', { shell: true });
 test.on('close', (code) => {
   if (code > 0) {
     console.log(`😢  Tests failed!`);
     process.exit();
   } else {
-    console.log(`🤓  Tests are kewl`);
+    console.log(`🤖  All Tests OK!`);
     compress();
     gitCmds();
   }
 });
 
 function compress() {
-  console.log('☕  Zipping Release Files ...')
+  console.log('  ☕  Zipping Release Files ...')
   zip.file('ddg', fs.readFileSync(path.join(__dirname, '/dist/bin/ddg-terminal-macos')));
   var data = zip.generate({ base64:false, compression: 'DEFLATE' });
   fs.writeFileSync('./dist/ddg-macos-x64.zip', data, 'binary');
@@ -52,28 +52,28 @@ function gitCmds() {
   .pull()
   .tags(function(err, tags) {
     if (pkg.version === tags.latest) {
-      console.log('☕  Fetching tags ...')
+      console.log('  ☕  Fetching tags ...')
       console.log(`🤖  Tag ${tags.latest} already exists`);
       process.exit();
     } else {
-      console.log(`🤓 Pushing current Changes`)
+      console.log(`  🤓  Pushing current Changes`)
     }
   })
   .add('./*')
   .commit('Push Release ${pkg.version}')
   .push(['origin', 'master'])
   .listRemote(['--get-url'], function(err, data) {
-    console.log(`☕  Fetch current Remote ...`)
+    console.log(`  ☕  Fetch current Remote ...`)
     checkError(err);
     REMOTE = data;
-    console.log(`🤖  Current Remote: ${REMOTE}`)
+    console.log(`  🤖  Current Remote: ${REMOTE}`)
   })
   .addTag(pkg.version, (err, res) => {
-    console.log(`🤓  Add Tag ${pkg.version}`)
+    console.log(`  🤓  Add Tag ${pkg.version}`)
     checkError(err);
   })
   .pushTags(REMOTE, (err, res) => {
-    console.log(`🤓  Push Tag to Remote: ${REMOTE}`)
+    console.log(`  🤓  Push Tag to Remote: ${REMOTE}`)
     checkError(err);
   });
 }
