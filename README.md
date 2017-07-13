@@ -1,6 +1,6 @@
 # ddg-termial
 [![Build Status](https://travis-ci.org/FreaKzero/ddg-terminal.svg?branch=master)](https://travis-ci.org/FreaKzero/ddg-terminal)
-
+[![npm version](https://badge.fury.io/js/ddg-terminal.svg)](https://badge.fury.io/js/ddg-terminal)
 NodeJS Application to view scraped results from http://duckduckgo.com in your Terminal - also
 includes *Instant Answers*
 
