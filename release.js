@@ -53,14 +53,14 @@ function gitCmds() {
   .tags(function(err, tags) {
     if (pkg.version === tags.latest) {
       console.log('  ☕  Fetching tags ...')
-      console.log(`🤖  Tag ${tags.latest} already exists`);
+      console.log(`  🤖  Tag ${tags.latest} already exists`);
       process.exit();
     } else {
       console.log(`  🤓  Pushing current Changes`)
     }
   })
   .add('./*')
-  .commit('Push Release ${pkg.version}')
+  .commit(`🎉 Release ${pkg.version}`)
   .push(['origin', 'master'])
   .listRemote(['--get-url'], function(err, data) {
     console.log(`  ☕  Fetch current Remote ...`)
