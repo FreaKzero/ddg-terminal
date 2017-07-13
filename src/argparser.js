@@ -1,13 +1,12 @@
 var CONFIG = require('./config');
 var ap = require('argparser');
+var pkg = require('../package.json');
 
 function parseArgs() {
    var args = ap.arg(0)
    .defaults(CONFIG.argConfig)
-   .nums('l')
-   .nonvals('u')
-   .nonvals('d')
-   .nonvals('o')
+   .nums('l', 'limit')
+   .nonvals('u', 'only-urls', 'd', 'desc', 'o', 'open', 'v', 'version')
    .parse();
 
    return {
@@ -16,17 +15,22 @@ function parseArgs() {
    }
 }
 
+function printVersion() {
+  console.log(pkg.version);
+}
+
 function printUsage() {
-  console.log(`DuckDuckGo Terminal Seach Results
+  console.log(`DuckDuckGo Terminal Seach Results v${pkg.version}
 Usage:
   ddg [FLAGS]... [SEARCHTERM]...
 
 Flags:
-  -l [integer]: Limit Results, default 10
-  -d Show Descriptions
-  -u Show only urls
-  -h Show this Help
-  -o Open found urls in Browser automatically
+  -v [--version]   Outputs Version
+  -h [--help]      Show this Help
+  -l [--limit]     Limit Results, default 10
+  -d [--desc]      Show Descriptions
+  -u [--only-urls] Show only urls
+  -o [--open]      Open found urls in Browser automatically
 
 Examples:
   $ ddg applepie recipie           # Only headlines and urls
@@ -37,5 +41,6 @@ Examples:
 }
 module.exports = {
   parseArgs,
-  printUsage
+  printUsage,
+  printVersion
 }
