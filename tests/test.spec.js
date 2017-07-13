@@ -206,8 +206,13 @@ describe("#scraper snippets", function() {
 
   it("Should Scape 5 Items", function() {
     options = {
-      opt: function() {
-        return 5;
+      opt: function(w) {
+        switch (w) {
+          case "l":
+          return 5;
+          case "f":
+          return false;
+        }
       }
     };
 
