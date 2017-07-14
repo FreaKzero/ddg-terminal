@@ -119,7 +119,7 @@ function publishGitHub() {
     }, (err, data) => {
         checkError(err);
         console.log(`  🤓  Release Successful!`)
-        openurl.open(`https://github.com/FreaKzero/ddg-terminal/releases/edit/${pkg.version}`);
+        openurl.open(`https://github.com/FreaKzero/ddg-terminal/releases`);
     });
 }
 
