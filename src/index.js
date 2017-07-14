@@ -3,11 +3,18 @@
 var argparser = require('./argparser')
 var scrape = require('./scrape');
 var output = require('./output');
+var updateAvailablePromise = require('./checkupdate');
 
 var parsed = argparser.parseArgs();
 
 if (parsed.args.opt('v', 'version') === true) {
   argparser.printVersion();
+  
+  updateAvailablePromise().then((update) => {
+  if (!update.error && update.result)
+    console.log('Version ${update.latest} is available under: ${update.url}');
+  });
+  
   process.exit();
 }
 
