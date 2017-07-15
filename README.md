@@ -18,18 +18,17 @@ Usage:
   ddg [FLAGS]... [SEARCHTERM]...
 
 Flags:
-  -l [integer]: Limit Results, default 30
-  -d Show Descriptions
-  -u Show only urls
-  -h Show this Help
+  -v [--version]   Outputs Version
+  -h [--help]      Show this Help
+  -l [--limit]     Limit Results, default 10
+  -d [--desc]      Show Descriptions
+  -u [--only-urls] Show only urls
+  -o [--open]      Open found urls in Browser automatically
+  -f [--first-hit] Opens First Link in Browser
 
 Examples:
   $ ddg applepie recipie           # Only headlines and urls
   $ ddg -l 5 javascript Promise    # Limit to 5, common programming question it will show instant answer
   $ ddg -l 10 -d blog programming  # Limit to 10, display also Descriptions
-  $ ddg -l 3 -u wat meme          # Limit to 3 only show urls (useful for xargs)
+  $ ddg -l 3 -u wat meme           # Limit to 3 only show urls
 ```
-
-## Most common usage for me:
-This will open the first 5 searchresults automatically in your defaultbrowser
-`ddg -l 5 -u stackoverflow question | xargs open`
