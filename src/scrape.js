@@ -1,4 +1,3 @@
-const exec = require("child_process").exec
 const rp = require('request-promise');
 const cheerio = require('cheerio');
 const urlRegex = /(https?:\/\/[^ ]*)/;
