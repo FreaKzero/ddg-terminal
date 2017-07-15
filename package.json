@@ -37,11 +37,12 @@
   },
   "devDependencies": {
     "github-api": "^3.0.0",
+    "jasmine-node": "^1.14.5",
     "node-zip": "^1.1.1",
-    "simple-git": "^1.73.0",
-    "rimraf": "^2.6.1",
     "pkg": "^4.1.1",
+    "prompt": "^1.0.0",
     "rewire": "^2.5.2",
-    "jasmine-node": "^1.14.5"
+    "rimraf": "^2.6.1",
+    "simple-git": "^1.73.0"
   }
 }

@@ -8,16 +8,11 @@ var spawn = require('child_process').spawn;
 var rimraf = require('rimraf');
 var GitHub = require('github-api');
 var openurl = require("openurl");
+var prompt = require('prompt');
 
 var REMOTE;
 var TAGBEFORE;
 var CHANGELOG = `*CHANGELOG:*\n\n`;
-
-console.log('  ☕  Checking /dist folder ...')
-if (!fs.existsSync('./dist')) {
-  console.log(`  😢  No /dist folder found please run "npm run build" first`);
-  process.exit();
-}
 
 checkError = (err) => {
   if (err) {
@@ -26,8 +21,38 @@ checkError = (err) => {
   }
 }
 
-gitCmds();
+checkDist(() => {
+  startPrompt(() => {
+    gitCmds();
+  });
+});
 
+function startPrompt(callback) {
+  console.log(`  🤓  Latest Version: ${pkg.version}`)
+  prompt.start();
+  prompt.get(['version'], function (err, result) {
+    if (result.version === pkg.version) {
+      console.log(`  😢  ${pkg.version} Already exists`);
+      process.exit()
+    }
+
+    pkg.version = result.version;
+    console.log(`  🤓  Writing new version (${pkg.version}) into package.json`)
+    fs.writeFileSync('./package.json', JSON.stringify(pkg, null, 2), 'utf8');
+    callback();
+  });
+
+}
+
+function checkDist(callback) {
+  console.log('  ☕  Checking /dist folder ...')
+  if (!fs.existsSync('./dist')) {
+    console.log(`  😢  No /dist folder found please run "npm run build" first`);
+    process.exit();
+  } else {
+    callback()
+  }
+}
 
 function compress() {
   console.log('  ☕  Zipping Release Files ...')
@@ -63,12 +88,12 @@ function gitCmds() {
   git
   .pull()
   .tags(function(err, tags) {
-    if (pkg.version === tags.latest) {
+    if (tags.all.indexOf(pkg.version)) {
       console.log('  ☕  Fetching tags ...')
-      console.log(`  🤖  Tag ${tags.latest} already exists`);
+      console.log(`  🤖  Tag ${VERSION} already exists`);
       process.exit();
     } else {
-      TAGBEFORE = tags.all[tags.all.length-2];
+      TAGBEFORE = tags.latest
       console.log(`  🤓  Pushing current Changes`)
     }
   })
@@ -94,7 +119,7 @@ function gitCmds() {
     data.all.filter((item) => {
       return item.message.includes('#')
     }).map((item) => {
-       CHANGELOG += `- ${item.message} \n`.replace('#','')
+       CHANGELOG += `- ${item.message} \n`;
     });
   }).exec(() => {
     publishNpm();
@@ -122,6 +147,3 @@ function publishGitHub() {
         openurl.open(`https://github.com/FreaKzero/ddg-terminal/releases`);
     });
 }
-
-// TODO check if TAGBEFORE is given
-// TODO write this nicely
