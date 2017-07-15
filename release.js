@@ -28,7 +28,7 @@ checkDist(() => {
 });
 
 function startPrompt(callback) {
-  console.log(`  🤓  Latest Version: ${pkg.version}`)
+  console.log(`  🤓  Current Version: ${pkg.version}`)
   prompt.start();
   prompt.get(['version'], function (err, result) {
     if (result.version === pkg.version) {
@@ -88,9 +88,9 @@ function gitCmds() {
   git
   .pull()
   .tags(function(err, tags) {
-    if (tags.all.indexOf(pkg.version)) {
+    if (tags.all.indexOf(pkg.version) > -1) {
       console.log('  ☕  Fetching tags ...')
-      console.log(`  🤖  Tag ${VERSION} already exists`);
+      console.log(`  😢  Tag ${pkg.version} already exists`);
       process.exit();
     } else {
       TAGBEFORE = tags.latest
