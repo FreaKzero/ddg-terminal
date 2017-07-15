@@ -77,7 +77,7 @@ function publishNpm() {
       console.log(`  😢  NPM Publish failed`);
       process.exit();
     } else {
-      console.log(`  🤖  NPM Package Published!`);
+      console.log(`  🤓  NPM Package Published!`);
       compress();
       publishGitHub();
     }
