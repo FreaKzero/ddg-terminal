@@ -45,13 +45,22 @@ function startPrompt(callback) {
 }
 
 function checkDist(callback) {
-  console.log('  ☕  Checking /dist folder ...')
-  if (!fs.existsSync('./dist')) {
-    console.log(`  😢  No /dist folder found please run "npm run build" first`);
-    process.exit();
-  } else {
-    callback()
-  }
+  console.log('  ☕  Check Repository')
+  git.diffSummary((err, data) => {
+    checkError(err);
+    if (data.files.length > 0) {
+      console.log(`  😢  You have uncommitted changes - Please commit them first!`);
+      process.exit();
+    } else {
+      console.log('  ☕  Checking /dist folder ...')
+      if (!fs.existsSync('./dist')) {
+        console.log(`  😢  No /dist folder found please run "npm run build" first`);
+        process.exit();
+      } else {
+        callback()
+      }
+    }
+  });
 }
 
 function compress() {
