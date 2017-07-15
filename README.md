@@ -12,6 +12,8 @@ Really useful with the CMD+Click feature of iTerm2
 ## Install:
 `npm install -g ddg-terminal`
 
+Or download and use one of the [Binary Releases](https://github.com/FreaKzero/ddg-terminal/releases)
+
 ## Usage:
 ```
 Usage:
